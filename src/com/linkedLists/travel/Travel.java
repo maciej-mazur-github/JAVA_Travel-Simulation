@@ -69,19 +69,35 @@ public class Travel {
         System.out.println(cityName + " successfully removed. You are now in the next city which is " + nextCityName);
     }
 
-    private boolean removeCity() {
+    private void removeCity() {
         System.out.print("Which city would like to remove? ");
         String cityToRemove = scanner.nextLine();
 
         if(places.contains(cityToRemove)) {
             removeCity(cityToRemove);
-            return true;
         } else {
             System.out.println("There is no such city in the list like " + cityToRemove);
-            return false;
         }
     }
 
+    private void addCityInOrder() {
+        System.out.print("What city would you like to add? ");
+        String cityToAdd = scanner.nextLine();
+
+        if(places.contains(cityToAdd)) {
+            System.out.println(cityToAdd + " already exists in the list. No duplicates allowed.");
+            return;
+        }
+
+        ListIterator<String> addingIterator = places.listIterator();
+        int compareResult;
+
+        while (addingIterator.hasNext()) {
+            compareResult = addingIterator.next().compareTo(cityToAdd);
+
+            if()
+        }
+    }
 
 
     private void printActions() {
