@@ -1,6 +1,5 @@
 package com.linkedLists.travel;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Scanner;
@@ -50,6 +49,17 @@ public class Travel {
         }
     }
 
+    private void printList() {
+        ListIterator<String> stringIterator = places.listIterator();
+        System.out.println("\n************************************");
+        System.out.println("This is the current status of your travel list:");
+        System.out.println();
+
+        for(int i = 0; i < places.size(); i++) {
+            System.out.println((i + 1) + ": " + places.get(i));
+        }
+    }
+
     private void goToNextCity() {   // to the one closer to the end of the list
         if(places.isEmpty()) {
             System.out.println("There is no city added to your list yet. Try adding some first");
@@ -64,11 +74,23 @@ public class Travel {
                 goingForward = false;
             }
         } else {
-            if(travelIterator.hasPrevious()) {
-                System.out.println("Going backwards, now visiting " + travelIterator.previous());
+            if(travelIterator.hasNext()) {
+                String city = travelIterator.next();
+
+                if(travelIterator.hasNext()) {
+                    city = travelIterator.next();
+                    System.out.println("Changed direction, now going forward and visiting " + city);
+                    goingForward = true;
+                } else {
+                    System.out.println(city + " was the last one in your list. You can't go any further. Start traveling backwards now.");
+                    //  goingForward flag already in false status in this case
+                }
+
+
             } else {
-                System.out.println("You have reached the beginning of the list. You can now start moving forward");
-                goingForward = true;
+                System.out.println(travelIterator.previous() + " was the last one in your list. You can't go any further. Start traveling backwards now.");
+                travelIterator.next();
+                goingForward = false;
             }
         }
     }
@@ -80,17 +102,30 @@ public class Travel {
         }
 
         if(!goingForward) {
-            if(travelIterator.hasNext()) {
-                System.out.println("Going backwards, now visiting " + travelIterator.next());
+            if(travelIterator.hasPrevious()) {
+                System.out.println("Going forward, now visiting " + travelIterator.previous());
             } else {
-                System.out.println("You have reached the end of the list. You can now start moving backwards");
-                goingForward = false;
+                System.out.println("You have reached the beginning of the list. You can now start moving forward");
+                goingForward = true;
             }
         } else {
             if(travelIterator.hasPrevious()) {
-                System.out.println("Going backwards, now visiting " + travelIterator.previous());
+                String city = travelIterator.previous();
+
+                if(travelIterator.hasPrevious()) {
+                    city = travelIterator.previous();
+                    System.out.println("Changed direction, now going backwards and visiting " + city);
+                    goingForward = false;
+                } else {
+                    System.out.println(city + " was the first one in your list. You can't go any further towards the beginning of the list. " +
+                                        "Start traveling forward now.");
+                    //  goingForward flag already in true status in this case
+                }
+
+
             } else {
-                System.out.println("You have reached the beginning of the list. You can now start moving forward");
+                System.out.println(travelIterator.next() + " was the last one in your list. You can't go any further. Start traveling backwards now.");
+                travelIterator.previous();
                 goingForward = true;
             }
         }
